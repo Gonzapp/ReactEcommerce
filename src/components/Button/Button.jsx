@@ -2,22 +2,20 @@ import { useState } from "react"
 
 
 
-const Button = ({text, color}) => {
+const Button = ({text, color, fn}) => {
 
     const[count, setCount] = useState(0)
 
     
     console.log("Se renderiza el componente")
 
-    const click = ()=>{
-     
+    const click = () =>{
         setCount(count+1)
-        console.log(count)
-
-    }
+        fn(count)
+    } 
 
     return(
-        <button style={{backgroundColor: color}} onClick={()=>click()}>{text+" " + count}</button>
+        <button style={{backgroundColor: color}} onClick={()=>click()}>{text}</button>
     )
 }
 

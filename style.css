@@ -32,6 +32,11 @@ body{
     }
 }
 
-.itemList-Container{
-    background-color: aqua;
+
+
+
+.itemContainer{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
