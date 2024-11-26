@@ -7,7 +7,7 @@ const Button = ({text, color, fn}) => {
     const[count, setCount] = useState(0)
 
     
-    console.log("Se renderiza el componente")
+    // console.log("Se renderiza el componente")
 
     const click = () =>{
         setCount(count+1)

@@ -8,7 +8,6 @@ const CartWidget = ({valor}) => {
     </div>
     
   )
-  
 }
-console.log("se actualiza valor?")
+
 export default CartWidget

@@ -19,24 +19,64 @@ body{
 
     align-items: center;
     width: 100%;
-    height: 30px;
+    height: 50px;
     padding: 3px 25px;
+    gap: 2px;
     display: flex;
     top: 0;
     background-color: rgb(55, 125, 247);
     border-top:  rgb(255, 242, 1) 3px solid; 
-    font-size: small;
+    font-size: 1rem;
+    color: white;
+    
     h1{
-        padding-right:20px;
+    
         font-size: 1.2rem;
     }
 }
 
-
-
-
-.itemContainer{
+.ItemListContainer{
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 5px;
+    gap: 10px;
+    height: 200px;
+}
+
+.ItemListContainerFilter{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 1.5rem 0 1.5rem 0;
+    justify-content: center;
+}
+
+
+.itemList{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: auto;
+    gap: 10px;
+    justify-content: center;
+
+}
+
+.card{
+    width: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    }
+
+
+.DetailItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    font-size: 1.5rem;
+
 }

@@ -1,16 +1,18 @@
 import React from 'react'
 import ItemCard from '../ItemCard/ItemCard'
 
-const ItemList = ({products}) => {
+const ItemList = ({products, fn}) => {
 
   return (
-    <div className='itemContainer'>
+    <>
+    <div className='itemList'>
       {products.map((e) => {
-      return(
-      <ItemCard e={e} key={e.nCarta}/>
-  )}
-    ) }
-  </div>
+        return(
+          <ItemCard fn={fn} e={e} key={e.id}/>
+        )}
+      ) }
+    </div>
+  </>
   )
 }
 

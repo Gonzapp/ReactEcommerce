@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from '../Button/Button'
 import ItemList from '../ItemList/ItemList'
-import { getProducts, getProductsByPalo } from '../../data/bakend'
-
+import { getProducts,  getProductsByCategory } from '../../data/bakend'
 
 
 const ItemListContainer = ({mensaje, fn}) => {
@@ -13,7 +12,7 @@ const ItemListContainer = ({mensaje, fn}) => {
   useEffect(() =>{
 
     if (palo) {
-      getProductsByPalo(palo)
+      getProductsByCategory(palo)
       .then(res => setProducts(res))
       .catch(e => console.error(e))
       .finally(console.log("carga finalizada"))
@@ -26,28 +25,24 @@ const ItemListContainer = ({mensaje, fn}) => {
     }
   }, [palo])
 
-  const changePalo = (palo) =>{
-    setPalo(palo)
-  }
+const changePalo = (palo) => {
+  setPalo(palo)
+}
 
   return (
 
     <>
-    <div>
-    <div className='itemList-Container'>{mensaje}</div>
-    <Button fn={fn} text="Agregar al carrito"/>
+    <div className='ItemListContainerFilter'>
+      <Button fn={() => changePalo("") } text="Todos"/>
+      <Button fn={() => changePalo("Basto") } text="Basto"/>
+      <Button fn={() => changePalo("Copa") } text="Copa"/>
+      <Button fn={() => changePalo("Espada") } text="Espada"/>
+      <Button fn={() => changePalo("Oro") } text="Oro"/>
     </div>
-
     <div>
-    <Button fn={() => changePalo("Palo") } text="Palo"/>
-    <Button fn={() => changePalo("Copa") } text="Copa"/>
-    <Button fn={() => changePalo("Espada") } text="Espada"/>
-    <Button fn={() => changePalo("Oro") } text="Oro"/>
-    <ItemList products={products}/>
-    </div>
-           
+      <ItemList fn={fn} products={products}/>
+    </div>     
     </>
-
 )
 }
 
