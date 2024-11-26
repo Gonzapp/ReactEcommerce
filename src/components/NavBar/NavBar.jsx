@@ -1,15 +1,14 @@
 
 import React from 'react'
-import CarWidget from '../CarWidget/CarWidget'
+import CartWidget from '../CartWidget/CartWidget'
 
-const Navbar = () => {
+function NavBar({valor}) {
   return (
-    <div className='nav-container'>
+  <nav className='nav-container'>
     <h1>5 de Copa</h1>
-    <CarWidget/>
-
-</div>
-  )
+    <CartWidget valor={valor}/>
+  </nav>
+  );
 }
 
-export default Navbar
+export default NavBar;
