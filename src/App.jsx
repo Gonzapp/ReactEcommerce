@@ -12,7 +12,6 @@ import DetailItem from './components/DetailItem/DetailItem'
 
 
 
-
 function App() {
   const[valor, setValor] = useState(0) //Estado
 
