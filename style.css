@@ -21,9 +21,10 @@ body{
     width: 100%;
     height: 50px;
     padding: 3px 25px;
-    gap: 2px;
+    gap: 10px;
     display: flex;
     top: 0;
+    justify-content: center;
     background-color: rgb(55, 125, 247);
     border-top:  rgb(255, 242, 1) 3px solid; 
     font-size: 1rem;
@@ -35,40 +36,9 @@ body{
     }
 }
 
-.ItemListContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-    height: 200px;
-}
-
-.ItemListContainerFilter{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    margin: 1.5rem 0 1.5rem 0;
-    justify-content: center;
-}
 
 
-.itemList{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: auto;
-    gap: 10px;
-    justify-content: center;
 
-}
-
-.card{
-    width: 18rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2px;
-    }
 
 
 .DetailItem{
@@ -80,3 +50,32 @@ body{
     font-size: 1.5rem;
 
 }
+
+
+/* Contenedor principal de la tarjeta */
+.item-card {
+    max-width: 18rem; /* Ancho máximo de la tarjeta */
+  }
+  
+  .card-img-top{
+      height: 300px;
+    object-fit: cover;
+  }
+  
+  .item-card-img {
+    object-fit: cover; 
+    height: 200px; 
+  }
+  
+
+  .card-title {
+    font-size: 1.25rem; 
+  }
+  
+
+  .item-card-button {
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  
+  

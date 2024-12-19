@@ -1,16 +1,22 @@
 
-import React from 'react'
+import React, { useContext } from 'react'
 import CartWidget from '../CartWidget/CartWidget'
-import Button from '../Button/Button';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../context/CartContext';
+import CategoryButtons from '../CategoryButtons/CategoryButtons';
 
-function NavBar({valor}) {
+function NavBar() {
+  const [cart] = useContext(CartContext)  
+
   return (
   <nav className='nav-container'>
-    <button><h1><Link to='/'>5 de Copa</Link></h1></button>
-    <button><Link to='/productos'>Productos</Link></button>
-    <button><Link to='/contacto'>Contacto</Link></button>
-    <CartWidget valor={valor}/>
+    <h1 className='nav-title'><Link to='/'>Timeless Beauty</Link></h1>
+    <CategoryButtons/>
+    {cart.length > 0 
+    ?
+    <Link to='/carrito'><CartWidget/></Link>
+    : 
+    <CartWidget/>}
   </nav>
   );
 }

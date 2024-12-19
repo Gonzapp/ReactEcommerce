@@ -1,11 +1,16 @@
 import React from 'react'
-import ItemList from '../ItemList/ItemList'
+import ItemListContainer from '../ItemListContainer/ItemListContainer'
 
 
-const HomeContainer = (fn, products) => {
+
+
+const HomeContainer = () => {
+
   return (
-    <div>
+    <div className='homeContainer'>
       <h1>Inicio</h1>
+      <ItemListContainer />
+      
 
     </div>
   )

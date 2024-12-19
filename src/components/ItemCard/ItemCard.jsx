@@ -1,23 +1,21 @@
-import React from 'react'
-import Button from '../Button/Button'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
-
-const ItemCard = ({e, fn }) => {
+const ItemCard = ({ product }) => {
+  console.log(product)
   return (
-    <>
-        <div className="card">
-          <img src={e.img} alt="carta" className="card-img-top" />
-          <div className="card-body">
-            <h3 className="card-title">{e.nombre}</h3>
-            <p className="card-text">{e.palo}</p>
-            <p className="card-text">${e.precio}</p>
-            <button type="button" className="btn btn-details" color="blue" text="Detalles"><Link to={`/producto/${e.id}`}>Detalles</Link></button>
-            <Button fn={fn} type="button" className="btn btn-success" color="green" text="Agregar al carrito"/>
-          </div>
-        </div>
-    </>
-  )
-}
+    <div className="card h-100" style={{ maxWidth: "18rem", margin: "0 auto" }}>
+      <img src={product.image} alt={product.title} className="card-img-top"/>
+      <div className="card-body d-flex flex-column justify-content-between">
+        <h5 className="card-title text-truncate">{product.title}</h5>
+        <p className="card-text mb-1">Stock: {product.stock}</p>
+        <p className="card-text mb-2">Precio: ${product.price}</p>
+        <Link to={`/producto/${product.category}/${product.id}`}>
+          <button className="btn btn-success w-100">Más Detalles</button>
+        </Link>
+      </div>
+    </div>
+  );
+};
 
-export default ItemCard
+export default ItemCard;

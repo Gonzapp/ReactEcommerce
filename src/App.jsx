@@ -1,40 +1,40 @@
 import { useState } from 'react'
 import './App.css'
-import { BrowserRouter, Routes, Route }  from 'react-router-dom'
-import Button from './components/Button/Button'
-import ItemListContainer from './components/ItemListContainer/ItemListContainer'
-import NavBar from './components/NavBar/Navbar'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ProductsProvider } from './context/ProductsContext'
+import { CartProvider } from './context/CartContext'
+import NavBar from './components/NavBar/NavBar'
 import HomeContainer from './components/HomeContainer/HomeContainer'
-import Contact from './components/Contact/Contact'
+import ItemListContainer from './components/ItemListContainer/ItemListContainer'
+import OrderSummary from './components/OrderSummary/OrderSummary'
 import DetailItem from './components/DetailItem/DetailItem'
-
-
-
-
+import FooterContainer from './components/FooterContainer/FooterContainer'
+import ConfirmOrder from './components/ConfirmOrder/ConfirmOrder'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 function App() {
-  const[valor, setValor] = useState(0) //Estado
-
-
-  
+ 
   return (
-
     <>
       <BrowserRouter>
-      <NavBar valor={valor}/>
-      <Routes>
-      <Route exact path='/' element={<HomeContainer fn={setValor}/>}/>
-      <Route exact path='/productos' element={<ItemListContainer className='ItemListContainer' fn={setValor}/>}/>
-      <Route exact path='/contacto' element={<Contact/>}/>
-      <Route exact path='/producto/:id' element={<DetailItem/>}/>
-      </Routes>
-
+        <CartProvider>
+          <NavBar/>
+          <ProductsProvider>
+            <Routes>
+              <Route exact path='/' element={<HomeContainer />}/>
+              <Route exact path='/productos' element={<ItemListContainer className='ItemListContainer' />} />
+              <Route exact path='/productos/:category' element={<ItemListContainer className='ItemListContainer'/>} />
+              <Route exact path='/producto/:category/:id' element={<DetailItem/>}/>
+              <Route exact path='/carrito' element={<OrderSummary/>} />
+              <Route exact path='/checkout' element={<ConfirmOrder/>} />
+              <Route path="*" element={<p className='alertError'>404 - Página no encontrada</p>} />             
+            </Routes>
+          </ProductsProvider>
+          <FooterContainer/>
+        </CartProvider>
       </BrowserRouter>
-
-      </>    
-  
-
+    </>    
   )
 }
 
