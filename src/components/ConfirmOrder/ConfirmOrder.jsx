@@ -1,87 +1,116 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Usa useNavigate en lugar de useHistory
-import { addOrder } from '../../firebase/firebase'; // Asegúrate de importar la función addOrder correctamente
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { CartContext } from '../../context/CartContext'
+import { addOrder } from '../../firebase/firebase'
 
-
-const ConfirmOrder = ({ cart }) => {
-  const [buyer, setBuyer] = useState({ email: '', name: '', phone: '' });
-  const navigate = useNavigate(); // Inicializa useNavigate
+const ConfirmOrder = () => {
+  const [cart, setCart] = useContext(CartContext)
+  const [buyer, setBuyer] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+  })
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setBuyer({ ...buyer, [name]: value });
-  };
+    setBuyer({ ...buyer, [e.target.name]: e.target.value })
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    if (!buyer.name || !buyer.email || !buyer.phone || !buyer.address) {
+      setError('Todos los campos son obligatorios.')
+      return false
+    }
+    setError('')
+    return true
+  }
 
-    // Calcula el total de la compra
-    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
-    const newOrder = {
-      buyer,
-      date: new Date(),
-      items: cart.map((item) => ({ id: item.id, title: item.title, price: item.price })),
-      total,
-    };
+  const handleSubmit = async () => {
+    if (!validateForm()) return
 
     try {
-      const orderId = await addOrder(newOrder);
-      alert(`¡Orden creada con éxito! ID: ${orderId}`);
-      // Redirige a otra ruta después de la creación del pedido
-      navigate('/'); // Redirecciona al inicio o a otra página de interés
+      // Calcular el total del carrito
+      const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
+
+      const newOrder = {
+        buyer,
+        items: cart,
+        total, // Guardar el total calculado
+        date: new Date().toLocaleString(),
+      }
+
+      const orderId = await addOrder(newOrder)
+
+      if (orderId) {
+        // Muestra el mensaje de confirmación
+        alert(`Orden confirmada con éxito. ID: ${orderId}`)
+        // Reinicia el carrito
+        setCart([])
+        // Redirige al HomeContainer
+        navigate("/")
+      }
     } catch (error) {
-      console.error('Error al crear la orden:', error);
-      alert('Hubo un error al crear la orden, por favor intenta nuevamente.');
+      console.error('Error al enviar la orden:', error)
     }
-  };
+  }
 
   return (
-    <div className="confirm-order">
-      <h2>Confirmar Orden</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Nombre</label>
+    <div className="container mt-5">
+      <h1 className="text-center mb-4">Confirmar Orden</h1>
+      <form className="border p-4 rounded shadow-sm" onSubmit={(e) => e.preventDefault()}>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <div className="mb-3">
+          <label className="form-label">Nombre:</label>
           <input
             type="text"
-            id="name"
             name="name"
+            className="form-control"
             value={buyer.name}
             onChange={handleChange}
-            className="form-control"
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Correo Electrónico</label>
+        <div className="mb-3">
+          <label className="form-label">Dirección:</label>
+          <input
+            type="text"
+            name="address"
+            className="form-control"
+            value={buyer.address}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Email:</label>
           <input
             type="email"
-            id="email"
             name="email"
+            className="form-control"
             value={buyer.email}
             onChange={handleChange}
-            className="form-control"
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="phone">Teléfono</label>
+        <div className="mb-3">
+          <label className="form-label">Teléfono:</label>
           <input
-            type="tel"
-            id="phone"
+            type="text"
             name="phone"
+            className="form-control"
             value={buyer.phone}
             onChange={handleChange}
-            className="form-control"
             required
           />
         </div>
-        <button type="submit" className="btn btn-success">
+        <button className="btn btn-primary w-100" onClick={handleSubmit}>
           Confirmar Compra
         </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default ConfirmOrder;
+export default ConfirmOrder

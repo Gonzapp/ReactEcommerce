@@ -1,5 +1,6 @@
 import React from 'react'
 import ItemListContainer from '../ItemListContainer/ItemListContainer'
+import FooterContainer from '../FooterContainer/FooterContainer'
 
 
 
@@ -7,11 +8,9 @@ import ItemListContainer from '../ItemListContainer/ItemListContainer'
 const HomeContainer = () => {
 
   return (
-    <div className='homeContainer'>
-      <h1>Inicio</h1>
+    <div>
+      <h2 className="category-title text-center py-3">Todos los productos para el embellecimiento personal</h2>
       <ItemListContainer />
-      
-
     </div>
   )
 }
