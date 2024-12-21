@@ -1,40 +1,21 @@
+import React from "react";
 
-export const incrementQuantity = (cart, setCart, id) => {
-    setCart(
-      cart.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    )
-  }
-  
-  export const decrementQuantity = (cart, setCart, id) => {
-    setCart(
-      cart.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
-          : item
-      )
-    )
-  }
-
-  
-  
-  export const addOrUpdateItem = (cart, setCart, product, quantity = 1) => {
-    const productWithId = { ...product, id }
-    const existingItem = cart.find((item) => item.id === productWithId.id)
-    if (existingItem) {
-      setCart(
-        cart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        )
-      )
-    } else {
-      setCart([...cart, { ...product, quantity }])
-    }
-  }
-
-
-
-
+export default function ItemCount({ quantity, onIncrement, onDecrement }) {
+  return (
+    <div className="quantity-container d-flex align-items-center">
+      <button
+        className="btn btn-outline-secondary btn-sm me-2"
+        onClick={onDecrement}
+      >
+        -
+      </button>
+      <span className="mx-2">{quantity}</span>
+      <button
+        className="btn btn-outline-secondary btn-sm me-3"
+        onClick={onIncrement}
+      >
+        +
+      </button>
+    </div>
+  );
+}

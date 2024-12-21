@@ -1,52 +1,51 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
-import { getSingleProduct } from '../../firebase/firebase'
-import { CartContext } from '../../context/CartContext'
-import Toastify from 'toastify-js'
-
+import React, { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { getSingleProduct } from "../../firebase/firebase";
+import { CartContext } from "../../context/CartContext";
+import Toastify from "toastify-js";
+import ItemCount from "../ItemCount/ItemCount"; // Importa el componente ItemCount
 
 export default function ItemDetailContainer() {
-  const { id } = useParams()
-  const [cart, setCart, addItem, totalCart, setTotalCart, clearCart] = useContext(CartContext)
+  const { id } = useParams();
+  const [cart, setCart, addItem, totalCart, setTotalCart, clearCart] =
+    useContext(CartContext);
 
-  const [product, setProduct] = useState(null)
-  const [error, setError] = useState(null)
-  const [quantity, setQuantity] = useState(1)
+  const [product, setProduct] = useState(null);
+  const [error, setError] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     getSingleProduct(id)
       .then((data) => {
         if (data) {
-          setProduct(data)
+          setProduct(data);
         } else {
-          setError('Producto no encontrado')
+          setError("Producto no encontrado");
         }
       })
-      .catch(() => setError('No se pudo cargar el producto'))
-  }, [id])
+      .catch(() => setError("No se pudo cargar el producto"));
+  }, [id]);
 
   const incrementQuantity = () => {
-    if (quantity < product.stock) {
-      setQuantity(quantity + 1)
+    if (product && quantity < product.stock) {
+      setQuantity(quantity + 1);
     }
-  }
+  };
 
   const decrementQuantity = () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1)
+      setQuantity(quantity - 1);
     }
-  }
+  };
 
   const handleClick = () => {
     if (product) {
       const productWithId = { ...product, id, quantity };
-  
 
       const existingItem = cart.find((item) => item.id === productWithId.id);
       const totalInCart = existingItem ? existingItem.quantity : 0;
       const newTotal = totalInCart + quantity;
-  
-    
+
       if (newTotal > product.stock) {
         Toastify({
           text: `No hay más stock disponible de ${product.title}.`,
@@ -59,13 +58,12 @@ export default function ItemDetailContainer() {
             y: 60,
           },
           backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
-        }).showToast()
-        return
+        }).showToast();
+        return;
       }
-  
- 
+
       addItem(productWithId);
-  
+
       Toastify({
         text: `${quantity} x ${product.title} añadido(s) al carrito.`,
         duration: 3000,
@@ -76,15 +74,13 @@ export default function ItemDetailContainer() {
           x: 0,
           y: 60,
         },
-        backgroundColor: "linear-gradient(to right, rgb(245, 86, 240), rgb(243, 190, 245))",
-      }).showToast()
-  
-      setQuantity(1)
+        backgroundColor:
+          "linear-gradient(to right, rgb(245, 86, 240), rgb(243, 190, 245))",
+      }).showToast();
+
+      setQuantity(1);
     }
-  }
-  
-  
-  
+  };
 
   return (
     <div className="container mt-5">
@@ -104,21 +100,12 @@ export default function ItemDetailContainer() {
               <span>Precio: $</span>
               <p className="text-success fw-bold m-0">{product.price}</p>
             </div>
-            <div className="quantity-container d-flex align-items-center">
-              <button
-                className="btn btn-outline-secondary btn-sm me-2"
-                onClick={decrementQuantity}
-              >
-                -
-              </button>
-              <span className="mx-2">{quantity}</span>
-              <button
-                className="btn btn-outline-secondary btn-sm me-3"
-                onClick={incrementQuantity}
-              >
-                +
-              </button>
-            </div>
+            
+            <ItemCount
+              quantity={quantity}
+              onIncrement={incrementQuantity}
+              onDecrement={decrementQuantity}
+            />
             <button
               onClick={handleClick}
               className="btn btn-success btn-lg mt-3"
@@ -131,5 +118,5 @@ export default function ItemDetailContainer() {
         <p>Cargando producto...</p>
       )}
     </div>
-  )
+  );
 }

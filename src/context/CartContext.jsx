@@ -1,34 +1,38 @@
-import { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react";
 
-export const CartContext = createContext(false)
+export const CartContext = createContext();
 
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([])
-  const [totalCart, setTotalCart] = useState(0)
-  
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState([]);
+  const [totalCart, setTotalCart] = useState(0); // Total de ítems en el carrito
 
-  const addItem = (item) => {
-    const existingItem = cart.find((product) => product.id === item.id)
+  // Calcular totalCart cada vez que el carrito cambie
+  useEffect(() => {
+    const total = cart.reduce((acc, item) => acc + item.quantity, 0);
+    setTotalCart(total);
+  }, [cart]);
+
+  // Agregar un producto al carrito
+  const addItem = (product) => {
+    const existingItem = cart.find((item) => item.id === product.id);
 
     if (existingItem) {
       setCart(
-        cart.map((product) =>
-          product.id === item.id
-            ? { ...product, quantity: product.quantity + item.quantity }
-            : product
+        cart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + product.quantity }
+            : item
         )
-      )
+      );
     } else {
-      setCart([...cart, item])
+      setCart([...cart, product]);
     }
+  };
 
-    setTotalCart((prevTotal) => prevTotal + item.quantity)
-  }
-
+  // Vaciar el carrito
   const clearCart = () => {
-    setCart([])
-    setTotalCart(0)
-  }
+    setCart([]);
+  };
 
   return (
     <CartContext.Provider
@@ -36,5 +40,5 @@ export function CartProvider({ children }) {
     >
       {children}
     </CartContext.Provider>
-  )
-}
+  );
+};
