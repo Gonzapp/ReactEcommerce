@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { CartContext } from "../../context/CartContext";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react"
+import { CartContext } from "../../context/CartContext"
+import { Link } from "react-router-dom"
 
 const Cart = () => {
-  const [cart, setCart, addItem, totalCart, setTotalCart, totalItem, clearCart] = useContext(CartContext);
+  const [cart, setCart, addItem, totalCart, setTotalCart, totalItem, clearCart] = useContext(CartContext)
 
-  // Incrementar la cantidad de un producto en el carrito
+
   const incrementQuantity = (id) => {
     setCart(
       cart.map((item) =>
@@ -13,10 +13,10 @@ const Cart = () => {
           ? { ...item, quantity: Math.min(item.quantity + 1, item.stock) }
           : item
       )
-    );
-  };
+    )
+  }
 
-  // Disminuir la cantidad de un producto en el carrito
+
   const decrementQuantity = (id) => {
     setCart(
       cart.map((item) =>
@@ -24,26 +24,26 @@ const Cart = () => {
           ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
           : item
       )
-    );
-  };
+    )
+  }
 
-  // Eliminar un producto del carrito
+
   const removeItem = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
-  };
+    setCart(cart.filter((item) => item.id !== id))
+  }
 
-  // Vaciar todo el carrito
+ 
   const removeItems = () => {
-    setCart([]); // Elimina todos los elementos del carrito
-  };
+    setCart([]) 
+  }
 
-  // Calcular el subtotal de un producto
-  const calculateSubtotal = (price, quantity) => price * quantity;
+ 
+  const calculateSubtotal = (price, quantity) => price * quantity
 
-  // Calcular el total del carrito
+
   const calculateTotal = () => {
-    return cart.reduce((acc, item) => acc + calculateSubtotal(item.price, item.quantity), 0);
-  };
+    return cart.reduce((acc, item) => acc + calculateSubtotal(item.price, item.quantity), 0)
+  }
 
   return (
     <div className="container mt-5">
@@ -118,7 +118,7 @@ const Cart = () => {
         <div className="alert alert-warning text-center">Tu carrito está vacío.</div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

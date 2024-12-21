@@ -1,50 +1,50 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { getSingleProduct } from "../../firebase/firebase";
-import { CartContext } from "../../context/CartContext";
-import Toastify from "toastify-js";
-import ItemCount from "../ItemCount/ItemCount"; // Importa el componente ItemCount
+import React, { useEffect, useState, useContext } from "react"
+import { useParams } from "react-router-dom"
+import { getSingleProduct } from "../../firebase/firebase"
+import { CartContext } from "../../context/CartContext"
+import Toastify from "toastify-js"
+import ItemCount from "../ItemCount/ItemCount" 
 
 export default function ItemDetailContainer() {
-  const { id } = useParams();
+  const { id } = useParams()
   const [cart, setCart, addItem, totalCart, setTotalCart, clearCart] =
-    useContext(CartContext);
+    useContext(CartContext)
 
-  const [product, setProduct] = useState(null);
-  const [error, setError] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState(null)
+  const [error, setError] = useState(null)
+  const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
     getSingleProduct(id)
       .then((data) => {
         if (data) {
-          setProduct(data);
+          setProduct(data)
         } else {
-          setError("Producto no encontrado");
+          setError("Producto no encontrado")
         }
       })
-      .catch(() => setError("No se pudo cargar el producto"));
-  }, [id]);
+      .catch(() => setError("No se pudo cargar el producto"))
+  }, [id])
 
   const incrementQuantity = () => {
     if (product && quantity < product.stock) {
-      setQuantity(quantity + 1);
+      setQuantity(quantity + 1)
     }
-  };
+  }
 
   const decrementQuantity = () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1);
+      setQuantity(quantity - 1)
     }
-  };
+  }
 
   const handleClick = () => {
     if (product) {
-      const productWithId = { ...product, id, quantity };
+      const productWithId = { ...product, id, quantity }
 
-      const existingItem = cart.find((item) => item.id === productWithId.id);
-      const totalInCart = existingItem ? existingItem.quantity : 0;
-      const newTotal = totalInCart + quantity;
+      const existingItem = cart.find((item) => item.id === productWithId.id)
+      const totalInCart = existingItem ? existingItem.quantity : 0
+      const newTotal = totalInCart + quantity
 
       if (newTotal > product.stock) {
         Toastify({
@@ -58,11 +58,11 @@ export default function ItemDetailContainer() {
             y: 60,
           },
           backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
-        }).showToast();
-        return;
+        }).showToast()
+        return
       }
 
-      addItem(productWithId);
+      addItem(productWithId)
 
       Toastify({
         text: `${quantity} x ${product.title} añadido(s) al carrito.`,
@@ -76,11 +76,11 @@ export default function ItemDetailContainer() {
         },
         backgroundColor:
           "linear-gradient(to right, rgb(245, 86, 240), rgb(243, 190, 245))",
-      }).showToast();
+      }).showToast()
 
-      setQuantity(1);
+      setQuantity(1)
     }
-  };
+  }
 
   return (
     <div className="container mt-5">
@@ -100,7 +100,7 @@ export default function ItemDetailContainer() {
               <span>Precio: $</span>
               <p className="text-success fw-bold m-0">{product.price}</p>
             </div>
-            
+
             <ItemCount
               quantity={quantity}
               onIncrement={incrementQuantity}
@@ -118,5 +118,5 @@ export default function ItemDetailContainer() {
         <p>Cargando producto...</p>
       )}
     </div>
-  );
+  )
 }
