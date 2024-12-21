@@ -1,8 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Link } from "react-router-dom"
 
 const ItemCard = ({ product }) => {
-  console.log(product)
   return (
     <div className="card h-100" style={{ maxWidth: "18rem", margin: "0 auto" }}>
       <img src={product.image} alt={product.title} className="card-img-top"/>
@@ -14,7 +13,7 @@ const ItemCard = ({ product }) => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ItemCard;
+export default ItemCard

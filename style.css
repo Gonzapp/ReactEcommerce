@@ -70,42 +70,42 @@ body{
   }
   
   .category-title {
-    font-size: 2.5rem; /* Tamaño destacado pero refinado */
-    font-weight: 600; /* Fuente semi-negrita para un toque moderno */
-    color: #333; /* Un gris oscuro más suave y elegante */
-    text-transform: capitalize; /* Capitaliza la primera letra de cada palabra */
-    letter-spacing: 1px; /* Ligero espaciado para una estética más limpia */
-    text-align: center; /* Centra el texto */
-    margin: 1rem 0; /* Margen para separar del resto del contenido */
-    background: linear-gradient(90deg, #fc25f1a1, #fbb5f767); /* Fondo degradado */
+    font-size: 2.5rem; 
+    font-weight: 600;
+    color: #333;
+    text-transform: capitalize; 
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 1rem 0;
+    background: linear-gradient(90deg, #fc25f1a1, #fbb5f767); 
     font-family: 'Dancing Script', 'Crimson Text', serif;
     font-weight: bold;
     color: #000;
-    border-bottom: 3px solid #6a11cb; /* Línea inferior con el mismo tono */
-    padding-bottom: 0.5rem; /* Espaciado inferior para separar la línea del texto */
+    border-bottom: 3px solid #6a11cb;
+    padding-bottom: 0.5rem;
   }
   
   .image-container {
-    background-color: #f7a0fa7e; /* Fondo claro */
-    padding: 20px; /* Espaciado interno */
+    background-color: #f7a0fa7e; 
+    padding: 20px;
     width: auto;
-    border-radius: 3% 0% 0% 3%; /* Bordes redondeados */
+    border-radius: 3% 0% 0% 3%;
   }
   
   .content-container {
-    background-color:  #f7a0fa7e; /* Fondo claro */
-    padding: 20px; /* Espaciado interno */
-    border-radius: 0px 3% 3% 0px; /* Bordes redondeados */
+    background-color:  #f7a0fa7e; 
+    padding: 20px;
+    border-radius: 0px 3% 3% 0px; 
   }
   
   .price-container {
     display: flex;
     align-items: center;
-    gap: 5px; /* Espaciado entre los elementos */
+    gap: 5px;
   }
   
   .price-container p {
-    margin: 0; /* Quita el margen por defecto */
+    margin: 0;
   }
   
   .navBarContainer{
@@ -122,13 +122,14 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(255, 255, 255); /* Fondo semitransparente */
+    background-color: rgb(255, 255, 255);
     z-index: 1000;
   }
   
   .loading-overlay p {
     margin-top: 10px;
     margin-left: 5px;
-    color: #000000; /* Texto en blanco para contraste */
+    color: #000000; 
     font-size: 1.2rem;
+    justify-content: flex-end;
   }

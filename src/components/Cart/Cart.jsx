@@ -1,48 +1,60 @@
-import React, { useContext } from 'react';
-import { CartContext } from '../../context/CartContext';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react'
+import { CartContext } from '../../context/CartContext'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
-  const [cart, setCart, addItem, totalCart, setTotalCart, totalItem] = useContext(CartContext);
+  const [cart, setCart, addItem, totalCart, setTotalCart, totalItem, clearCart] = useContext(CartContext)
 
-  // Agrupar productos por id y calcular cantidades
+  // Agrupar el carrito por productos, sumando las cantidades si hay duplicados
   const groupedCart = cart.reduce((acc, item) => {
-    const existingItem = acc.find((i) => i.id === item.id);
+    const existingItem = acc.find((i) => i.id === item.id)
     if (existingItem) {
-      existingItem.quantity += item.quantity;
+      existingItem.quantity += item.quantity
     } else {
-      acc.push({ ...item });
+      acc.push({ ...item })
     }
-    return acc;
-  }, []);
+    return acc
+  }, [])
 
+  // Incrementar la cantidad de un producto
   const incrementQuantity = (id) => {
     setCart(
       cart.map((item) =>
         item.id === id
-          ? { ...item, quantity: Math.min(item.quantity + 1, item.stock) } // Limitar al valor máximo del stock
+          ? { ...item, quantity: Math.min(item.quantity + 1, item.stock) } 
           : item
       )
-    );
-  };
+    )
+  }
 
+  // Disminuir la cantidad de un producto
   const decrementQuantity = (id) => {
     setCart(
       cart.map((item) =>
         item.id === id
-          ? { ...item, quantity: Math.max(item.quantity - 1, 1) } // Limitar al valor mínimo de 1
+          ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
           : item
       )
-    );
-  };
+    )
+  }
 
+  // Eliminar un producto del carrito
   const removeItem = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
-  };
+    setCart(cart.filter((item) => item.id !== id))
+  }
 
+  // Vaciar todo el carrito
+  const removeItems = () => {
+    setCart([]) // Elimina todos los elementos del carrito
+  }
+
+  // Calcular el subtotal de un producto
+  const calculateSubtotal = (price, quantity) => price * quantity
+
+  // Calcular el total del carrito
   const calculateTotal = () => {
-    return groupedCart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  };
+    return groupedCart.reduce((acc, item) => acc + calculateSubtotal(item.price, item.quantity), 0)
+  }
 
   return (
     <div className="container mt-5">
@@ -62,7 +74,10 @@ const Cart = () => {
                   <div>
                     <p className="mb-1 fw-bold">{item.title}</p>
                     <p className="mb-1">
-                      Precio: <span className="text-success fw-bold">${item.price}</span>
+                      Precio unitario: <span className="text-success fw-bold">${item.price}</span>
+                    </p>
+                    <p className="mb-1">
+                      Subtotal: <span className="text-success fw-bold">${calculateSubtotal(item.price, item.quantity)}</span>
                     </p>
                   </div>
                 </div>
@@ -71,11 +86,7 @@ const Cart = () => {
                     -
                   </button>
                   <span className="mx-2">{item.quantity}</span>
-                  <button
-                    className="btn btn-outline-secondary btn-sm me-3"
-                    onClick={() => incrementQuantity(item.id)}
-                    disabled={item.quantity >= item.stock} // Deshabilitar si alcanza el stock
-                  >
+                  <button className="btn btn-outline-secondary btn-sm me-3" onClick={() => incrementQuantity(item.id)} disabled={item.quantity >= item.stock}>
                     +
                   </button>
                   <button className="btn btn-outline-danger btn-sm" onClick={() => removeItem(item.id)}>
@@ -85,10 +96,13 @@ const Cart = () => {
               </li>
             ))}
             <li className="list-group-item text-end">
-              <strong>Total: ${calculateTotal()}</strong>
+              <strong>Total a pagar: ${calculateTotal()}</strong>
             </li>
           </ul>
-          <div className="card-footer text-end">
+          <div className="card-footer d-flex justify-content-between">
+            <button className="btn btn-danger" onClick={removeItems}>
+              Vaciar carrito
+            </button>
             <Link to="/checkout" className="btn btn-primary">
               Confirmar Compra
             </Link>
@@ -98,7 +112,7 @@ const Cart = () => {
         <div className="alert alert-warning text-center">Tu carrito está vacío.</div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

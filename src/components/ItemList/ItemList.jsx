@@ -2,7 +2,6 @@ import React from 'react'
 import ItemCard from '../ItemCard/ItemCard'
 
 const ItemList = ({ products }) => {
-  console.log(products)
   return (
     <div className="container mt-4">
       <div className="row">
@@ -21,9 +20,4 @@ const ItemList = ({ products }) => {
     
   )
 }
-
-
-
-
-
-export default ItemList;
+export default ItemList

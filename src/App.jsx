@@ -8,7 +8,7 @@ import ItemListContainer from './components/ItemListContainer/ItemListContainer'
 import Cart from './components/Cart/Cart'
 import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer'
 import FooterContainer from './components/FooterContainer/FooterContainer'
-import ConfirmOrder from './components/ConfirmOrder/ConfirmOrder'
+import CheckoutForm from './components/CheckoutForm/CheckoutForm'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -26,7 +26,7 @@ function App() {
               <Route exact path='/productos/:category' element={<ItemListContainer className='ItemListContainer'/>} />
               <Route exact path='/producto/:category/:id' element={<ItemDetailContainer/>}/>
               <Route exact path='/carrito' element={<Cart/>} />
-              <Route exact path='/checkout' element={<ConfirmOrder/>} />
+              <Route exact path='/checkout' element={<CheckoutForm/>} />
               <Route path="*" element={<p className='alertError'>404 - Página no encontrada</p>} />             
               <Route element={<FooterContainer/>} />
             </Routes>
@@ -37,10 +37,5 @@ function App() {
     </>    
   )
 }
-
-
-
-
-
 
 export default App

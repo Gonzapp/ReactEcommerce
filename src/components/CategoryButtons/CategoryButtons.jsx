@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const CategoryButtons = () => {
   return (
@@ -13,7 +13,7 @@ const CategoryButtons = () => {
         <button className="btn btn-outline-danger">Maquillaje</button>
       </Link>
     </div>
-  );
-};
+  )
+}
 
-export default CategoryButtons;
+export default CategoryButtons

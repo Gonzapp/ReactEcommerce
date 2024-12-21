@@ -68,7 +68,7 @@ Accede a la aplicación desde el link http://localhost:3000
 
 #### _Links del proyecto:_ 
 
-✅[Proyecto en produccion](https://cuisinebazar.netlify.app/)
+✅[Proyecto en produccion](https://timeless-beuty.netlify.app/)
 
 #### _Links de Github:_ 
 

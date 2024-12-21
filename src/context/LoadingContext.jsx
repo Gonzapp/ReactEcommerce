@@ -1,11 +1,11 @@
-import React, { createContext, useState } from 'react';
-import ReactLoading from 'react-loading';
+import React, { createContext, useState } from 'react'
+import ReactLoading from 'react-loading'
 
 
-export const LoadingContext = createContext();
+export const LoadingContext = createContext()
 
 export function LoadingProvider({ children }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   return (
     <LoadingContext.Provider value={{ loading, setLoading }}>
@@ -19,5 +19,5 @@ export function LoadingProvider({ children }) {
         {children}
       </>
     </LoadingContext.Provider>
-  );
+  )
 }

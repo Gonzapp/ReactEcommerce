@@ -2,15 +2,16 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { getSingleProduct } from '../../firebase/firebase'
 import { CartContext } from '../../context/CartContext'
+import Toastify from 'toastify-js'
 
 
 export default function ItemDetailContainer() {
   const { id } = useParams()
-  const [product, setProduct] = useState(null)
-  const [cart, setCart, addItem, totalCart, setTotalCart, totalItem] = useContext(CartContext)
+  const [cart, setCart, addItem, totalCart, setTotalCart, clearCart] = useContext(CartContext)
 
+  const [product, setProduct] = useState(null)
   const [error, setError] = useState(null)
-  const [quantity, setQuantity] = useState(1) // Estado para manejar la cantidad
+  const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
     getSingleProduct(id)
@@ -38,23 +39,52 @@ export default function ItemDetailContainer() {
 
   const handleClick = () => {
     if (product) {
-      const productWithId = { ...product, id }
-      const existingItem = cart.find((item) => item.id === productWithId.id)
+      const productWithId = { ...product, id, quantity };
+  
 
-      if (existingItem) {
-        setCart(
-          cart.map((item) =>
-            item.id === productWithId.id
-              ? { ...item, quantity: item.quantity + quantity }
-              : item
-          )
-        )
-      } else {
-        addItem({ ...productWithId, quantity })
+      const existingItem = cart.find((item) => item.id === productWithId.id);
+      const totalInCart = existingItem ? existingItem.quantity : 0;
+      const newTotal = totalInCart + quantity;
+  
+    
+      if (newTotal > product.stock) {
+        Toastify({
+          text: `No hay más stock disponible de ${product.title}.`,
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "right",
+          offset: {
+            x: 0,
+            y: 60,
+          },
+          backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+        }).showToast()
+        return
       }
-      setQuantity(1) // Reinicia la cantidad después de agregar al carrito
+  
+ 
+      addItem(productWithId);
+  
+      Toastify({
+        text: `${quantity} x ${product.title} añadido(s) al carrito.`,
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        offset: {
+          x: 0,
+          y: 60,
+        },
+        backgroundColor: "linear-gradient(to right, rgb(245, 86, 240), rgb(243, 190, 245))",
+      }).showToast()
+  
+      setQuantity(1)
     }
   }
+  
+  
+  
 
   return (
     <div className="container mt-5">

@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app"
 import {
     getFirestore,
     doc,
@@ -10,7 +10,7 @@ import {
     addDoc,
     updateDoc,
     writeBatch,
-} from 'firebase/firestore';
+} from 'firebase/firestore'
 
 
 
@@ -21,27 +21,27 @@ const firebaseConfig = {
     storageBucket: "ecommerce-2f9cc.firebasestorage.app",
     messagingSenderId: "1024584292672",
     appId: "1:1024584292672:web:e22d697eb114b0b4a542a5"
-};
+}
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig)
 
 export const db = getFirestore(app)
 
 export async function getSingleProduct(id) {
-  const documentRef = doc(db, 'productos', id);
+  const documentRef = doc(db, 'productos', id)
 
   try {
-      const snapshot = await getDoc(documentRef);
+      const snapshot = await getDoc(documentRef)
       if (snapshot.exists()) {
-          return snapshot.data(); // Retorna los datos del documento si existe
+          return snapshot.data() // Retorna los datos del documento si existe
       } else {
-          console.log('El documento no existe!');
-          return null; // O manejar el error de alguna otra manera según tus necesidades
+          console.log('El documento no existe!')
+          return null // O manejar el error de alguna otra manera según tus necesidades
       }
   } catch (error) {
-      console.error('Error al obtener el documento', error);
-      return null; // Opcional: manejar el error y retornar null
+      console.error('Error al obtener el documento', error)
+      return null // Opcional: manejar el error y retornar null
   }
 }
 
@@ -56,11 +56,11 @@ export async function getProducts() {
           return {
             id: e.id,
             ...e.data(),
-          };
+          }
         
           
-        });
-        return productsList;
+        })
+        return productsList
       } else {
         return []
       }
@@ -71,12 +71,12 @@ export async function getProducts() {
 
   export async function getProductsByCategory(category) {
     try {
-      const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+      const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()
 
       const filteredQuery = query(
         collection(db, 'productos'),
         where('category', '==', formattedCategory),        
-      );
+      )
   
       const querySnapshot = await getDocs(filteredQuery)
 
@@ -100,11 +100,11 @@ export async function getProducts() {
 
 
   export async function addOrder(order) {
-    const ordersCollection = collection(db, 'orders');
+    const ordersCollection = collection(db, 'orders')
     try {
-      const docRef = await addDoc(ordersCollection, order);
-      return docRef.id;
+      const docRef = await addDoc(ordersCollection, order)
+      return docRef.id
     } catch (error) {
-      console.error('Error al agregar el documento nuevo ', error);
+      console.error('Error al agregar el documento nuevo ', error)
     }
   }

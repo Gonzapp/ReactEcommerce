@@ -2,9 +2,10 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CartContext } from '../../context/CartContext'
 import { addOrder } from '../../firebase/firebase'
+import Swal from 'sweetalert2'
 
-const ConfirmOrder = () => {
-  const [cart, setCart] = useContext(CartContext)
+const CheckoutForm = () => {
+  const [cart, setCart, addItem, totalCart, setTotalCart, clearCart] = useContext(CartContext)
   const [buyer, setBuyer] = useState({
     name: '',
     email: '',
@@ -27,29 +28,36 @@ const ConfirmOrder = () => {
     return true
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
     if (!validateForm()) return
 
     try {
-      // Calcular el total del carrito
       const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
       const newOrder = {
         buyer,
         items: cart,
-        total, // Guardar el total calculado
+        total,
         date: new Date().toLocaleString(),
       }
 
       const orderId = await addOrder(newOrder)
 
       if (orderId) {
-        // Muestra el mensaje de confirmación
-        alert(`Orden confirmada con éxito. ID: ${orderId}`)
-        // Reinicia el carrito
-        setCart([])
-        // Redirige al HomeContainer
-        navigate("/")
+        const currentDate = new Date().toLocaleString()
+
+        Swal.fire({
+          title: 'Orden Confirmada',
+          text: `Orden ID: ${orderId}
+          \n Fecha y Hora: ${currentDate}`,
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        }).then(() => {
+          clearCart()  
+          navigate('/')  
+        })
       }
     } catch (error) {
       console.error('Error al enviar la orden:', error)
@@ -59,7 +67,7 @@ const ConfirmOrder = () => {
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Confirmar Orden</h1>
-      <form className="border p-4 rounded shadow-sm" onSubmit={(e) => e.preventDefault()}>
+      <form className="border p-4 rounded shadow-sm" onSubmit={handleSubmit}>
         {error && <div className="alert alert-danger">{error}</div>}
         <div className="mb-3">
           <label className="form-label">Nombre:</label>
@@ -105,7 +113,7 @@ const ConfirmOrder = () => {
             required
           />
         </div>
-        <button className="btn btn-primary w-100" onClick={handleSubmit}>
+        <button type="submit" className="btn btn-primary w-100">
           Confirmar Compra
         </button>
       </form>
@@ -113,4 +121,4 @@ const ConfirmOrder = () => {
   )
 }
 
-export default ConfirmOrder
+export default CheckoutForm

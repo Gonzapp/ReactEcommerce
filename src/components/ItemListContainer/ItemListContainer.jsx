@@ -1,36 +1,35 @@
-import React, { useEffect, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
-import ItemList from "../ItemList/ItemList";
-import { getProducts, getProductsByCategory } from "../../firebase/firebase";
-import { LoadingContext } from "../../context/LoadingContext";
+import React, { useEffect, useContext, useState } from "react"
+import { useParams } from "react-router-dom"
+import ItemList from "../ItemList/ItemList"
+import { getProducts, getProductsByCategory } from "../../firebase/firebase"
+import { LoadingContext } from "../../context/LoadingContext"
 
 const ItemListContainer = () => {
-  const [products, setProducts] = useState([]); // Estado para guardar los productos
-  const { loading, setLoading } = useContext(LoadingContext); // Usamos el contexto de carga
-  const { category } = useParams(); // Obtener el parámetro de la URL
+  const [products, setProducts] = useState([])
+  const { loading, setLoading } = useContext(LoadingContext) 
+  const { category } = useParams()
 
   useEffect(() => {
-    setLoading(true); // Activar estado de carga al iniciar
+    setLoading(true) 
 
     if (category) {
-      // Si hay una categoría seleccionada, obtener productos filtrados
+
       getProductsByCategory(category)
         .then((filteredProducts) => {
-          console.log(filteredProducts);
-          setProducts(filteredProducts);
+          setProducts(filteredProducts)
         })
         .catch((error) => console.error("Error al filtrar productos:", error))
-        .finally(() => setLoading(false));
+        .finally(() => setLoading(false))
     } else {
-      // Si no hay categoría seleccionada, obtener todos los productos
+     
       getProducts()
         .then((allProducts) => {
-          setProducts(allProducts);
+          setProducts(allProducts)
         })
         .catch((error) => console.error("Error al obtener productos:", error))
-        .finally(() => setLoading(false));
+        .finally(() => setLoading(false))
     }
-  }, [category, setLoading]); // Se ejecuta cada vez que la categoría cambia
+  }, [category, setLoading])
 
   return (
     <div>
@@ -43,7 +42,7 @@ const ItemListContainer = () => {
         <p>No se encontraron productos.</p>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ItemListContainer;
+export default ItemListContainer
